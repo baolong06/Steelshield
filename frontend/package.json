@@ -1,0 +1,24 @@
+{
+  "name": "steelshield-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3000 --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start --port 3000 --hostname 127.0.0.1"
+  },
+  "dependencies": {
+    "next": "^16.3.5",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.6",
+    "typescript": "^5.5.3"
+  }
+}

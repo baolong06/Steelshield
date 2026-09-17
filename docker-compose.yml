@@ -1,0 +1,48 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "127.0.0.1:6379:6379"
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file:
+      - backend/.env
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - ./dataset:/workspace/dataset:ro
+    depends_on:
+      - redis
+
+  # Single-worker only: the process enforces an exclusive Redis lock and a second instance exits.
+  worker:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    command: python -m app.worker
+    env_file:
+      - backend/.env
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      PYTHONPATH: /workspace/backend
+    working_dir: /workspace/backend
+    volumes:
+      - ./dataset:/workspace/dataset:ro
+    depends_on:
+      - redis
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      BACKEND_URL: http://backend:8000
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - backend

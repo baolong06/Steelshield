@@ -18,3 +18,4 @@ backend/.env
 frontend/tsconfig.tsbuildinfo
 *.egg-info/
 dataset/
+.claude/settings.local.json
